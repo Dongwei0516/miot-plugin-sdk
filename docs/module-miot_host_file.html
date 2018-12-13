@@ -111,6 +111,27 @@
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint" style="width:100%;"><code style="width:100%;">//给定文件名后下载或者截图后被放到本地目录里, 在&lt;Image/>等标签需要引用时, 使用{local:"filename"}的方式引入
+   const myfile = "testpicture.png"
+   Host.file.downloadFile("http://..../...png", myfile)
+   .then(res=>{
+       const myimg = &lt;Image source={{local:myfile}} .../>
+       ...
+   })
+   .catch(err=>{...})
+
+   ...
+   const myshotfile = "testshot.png"
+   Host.file.screenShot(myshotfile)
+   .then(res=>{
+      const myshotpic = &lt;Image source={{local:myshotfile}} .../>
+      ...
+   });
+   ...</code></pre>
+
+
 
         
     
@@ -1487,6 +1508,156 @@
     <dd>
         
 <span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+</div>
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".isFileExists"><span class="type-signature">(static) </span>isFileExists<span class="signature">(fileName)</span><span class="type-signature"> &rarr; {Promise.&lt;boolean>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>判断文件是否存在</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fileName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+<h5></h5><div style="display:none">
+ 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;boolean></span>
 
 
     </dd>
@@ -4035,142 +4206,6 @@
         
     
 
-    
-        <h3 class="subsection-title">Type Definitions</h3>
-
-        
-                
-
-    
-
-    
-    <h4 class="name" id="~json"><span class="type-signature"></span>json<span class="signature">(fileName)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>判断文件是否存在,then(res=&gt;{res==true 存在，res==false不存在}).catch(err=&gt;consloe.log(err))</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>fileName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-<h5></h5><div style="display:none">
-
-</div>
-
-
-
-
-
-            
     
 
     

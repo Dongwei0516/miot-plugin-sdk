@@ -2,7 +2,25 @@
  * @export
  * @module miot/host/file
  * @description 本地文件访问及处理服务
- *
+ * 
+ * @example
+ *    //给定文件名后下载或者截图后被放到本地目录里, 在<Image/>等标签需要引用时, 使用{local:"filename"}的方式引入
+ *    const myfile = "testpicture.png"
+ *    Host.file.downloadFile("http://..../...png", myfile)
+ *    .then(res=>{
+ *        const myimg = <Image source={{local:myfile}} .../>
+ *        ...
+ *    })
+ *    .catch(err=>{...})
+ * 
+ *    ...
+ *    const myshotfile = "testshot.png"
+ *    Host.file.screenShot(myshotfile)
+ *    .then(res=>{
+ *       const myshotpic = <Image source={{local:myshotfile}} .../>
+ *       ...
+ *    });
+ *    ...
  */
 export default {
     /**
@@ -14,9 +32,9 @@ export default {
          return Promise.resolve([]);
     },
     /**
-     * 判断文件是否存在,then(res=>{res==true 存在，res==false不存在}).catch(err=>consloe.log(err))
+     * 判断文件是否存在
      * @param {string} fileName
-     * @callback {boolean/string} json 文件是否存在的结果或者报错信息
+     * @returns {Promise<boolean>} 
      */
     isFileExists(fileName) {
          return Promise.resolve(false)

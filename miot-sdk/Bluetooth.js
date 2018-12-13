@@ -15,15 +15,9 @@
  *
  * ble.getService("a-b-c-d-e").startDiscoverCharacteristics("1-2-3-4-5",...)
  *
- * ble.getService('...').getCharacteristic('...')
- *                      .setNotify(true)
- *                      .read(characteristic=>{
- *                          characteristic.value ...
- *                      })
- *                      .write(value, ok=>{})
- *
- * ble.getService('a-b-c').getCharacteristic('1-2-3')
- *      .read().then(value=>{}).catch(err=>{...})
+ * ble.getService('...').getCharacteristic('...').setNotify().then(ok=>{});
+ * ble.getService('...').getCharacteristic('...').read().then(characteristic=>{characteristic.value ... });
+ * ble.getService('...').getCharacteristic('...').write().then(value, ok=>{})
  *
  *
  *
@@ -339,6 +333,16 @@ export class IBluetoothLE extends IBluetooth{
     startDiscoverServices(...serviceUUIDs) {
         return false;
     }
+    /**
+     * 获取蓝牙固件版本
+     * @method
+     * @param {boolean} decrypt
+     * @returns {boolean}
+     *
+     */
+    getVersion(decrypt) {
+        return false;
+    }
 }
 /**
  * 经典蓝牙
@@ -519,18 +523,13 @@ export default {
     stopScan() {
     },
     /**
-     * 加载本地蓝牙设备
+     * iOS 平台获取已连接 BLE Peripheral，适用于可穿戴长连接设备
      * @method
-     * @param {...string} UUIDs - deviceUUID
+     * @param {...string} UUIDs - Peripheral UUIDs
      * @returns {Promise<Map<uuid, Bluetooth>>}
-     *
+     * //@mark ios done
      * @example
-     *   ...
-     *   Bluetooth.retrievePeripheralsForIOS({services:["deviceUUID1","deviceUUID2","deviceUUID3"]})
-     *   Bluetooth.retrievePeripheralsForIOS({devices:["deviceUUID1","deviceUUID2","deviceUUID3"]})
-     *   ...
-     *   Bluetooth.retrievePeripheralsForIOS("deviceUUID1","deviceUUID2","deviceUUID3",...)
-     *
+     *   Bluetooth.retrievePeripheralsForIOS(["PeripheralUUID1","PeripheralUUID2","PeripheralUUID3"])
      */
     retrievePeripheralsForIOS(...UUIDs) {
          return Promise.resolve(null);
@@ -568,12 +567,11 @@ export default {
     },
     /**
      * 只在MIUI上支持，维持长连接 如果连接失败，则会隔一段时间尝试重连，如果继续失败，则重连间隔会翻倍，直到上限。
-     * 
+     *
      * @static
-     * @param {*} alert 
-     * @param {*} enable 
+     * @param {*} alert
+     * @param {*} enable
      */
     setAlertConfigsOnMIUI(alert,enable){
     },
- 
 };
