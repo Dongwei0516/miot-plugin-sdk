@@ -7,7 +7,7 @@
 export default {
     /**
      * 获取用户的昵称和头像信息
-     * @param {*} uid 
+     * @param {*} uid 获取用户信息的uid
      * @returns {Promise<json>}
      */
     getUserInfo(uid){
@@ -26,7 +26,7 @@ export default {
      */
     /**
      * 上报gps信息 /location/set
-     * @param {*} deviceID
+     * @param {string} deviceID
      * @param {GPSInfo} gpsInfo
      * @returns {Promise<json>}
      *
@@ -49,7 +49,7 @@ export default {
      */
     /**
      * 获取天气 /location/weather
-     * @param {*} deviceID
+     * @param {string} deviceID
      * @returns {Promise<WeatherInfo>}
      *
      */
@@ -57,8 +57,17 @@ export default {
          return Promise.resolve(null);
     },
     /**
+     * 获取某指定地区天气环境等信息
+     * /location/area_prop_info
+     * @param {json} params {latitude:xx,longitude:xx,cityId:['pm2.5','realtime']}
+     * @returns {Promise}
+     */
+    getAreaPropInfo(params) {
+         return Promise.resolve(null);
+    },
+    /**
      * 检查到有可用更新时，可以主动更新固件。 /home/multi_checkversion
-     * @param deviceIDs
+     * @param {array<string>} deviceIDs
      * @return {Promise<json>}
      */
     getAvailableFirmwareForDids(deviceIDs){
@@ -82,14 +91,17 @@ export default {
     /**
      * 上报设备数据 /device/event
      * @param {string} deviceID
-     * @param {array} records
+     * @param {array<map>} records [{type:string,key:string,value:string}]
+     *
+     * @example
+     * Service.smarthome.reportRecords("deviceID", [{type:"a",key:"b",value:"c"}])
      */
     reportRecords(deviceID, records){
          return Promise.resolve(null);
     },
     /**
-     * 获取支持语音的设备 可以控制的设备列表。 /v2/device/range_get_extra_data
-     * @param deviceID  语音设备的 did
+     * - /v2/device/range_get_extra_data
+     * @param {json} params {did:string,prefix:string,limit:int,offset:int}
      * @return {Promise<json>}
      */
     getDevicesConfig(params){
@@ -105,15 +117,24 @@ export default {
     },
     /**
      * 获取小爱接口数据，内部调用米家代理接口/v2/api/aivs
-     * @param params 请求参数
+     * @param {json} params 请求参数 {path:string,params:map,header:map,payload:map,env:int,req_method:string,req_header:map}
      * @return {Promise}
+     * @example
+     * Service.smarthome.getAiServiceProxy({
+     *  path: "/api/aivs/xxx",
+     *  params: { did : "xx", client_id: "xx"},
+     *  header: { name : "xx"},
+     *  env: 1,
+     *  req_method: "POST",
+     *  req_header: {"Content-Type":"xx"}
+     * }).then()
      */
     getAiServiceProxy(params){
          return Promise.resolve(null);
     },
     /**
      * 获取服务器中 device 对应的数据，内部调用米家代理接口 /device/getsetting
-     * @param params 请求参数
+     * @param {json} params 请求参数 {did:string,settings:array<string>}
      * @return {Promise}
      */
     getDeviceSetting(params){
@@ -121,7 +142,7 @@ export default {
     },
     /**
      * 设置服务器中 device 对应的数据，内部调用米家代理接口/device/setsetting
-     * @param params 请求参数
+     * @param {json} params 请求参数 {did:string,settings:map<key,value>}
      * @return {Promise}
      */
     setDeviceSetting(params){
@@ -129,7 +150,7 @@ export default {
     },
     /**
      * 删除服务器中 device 对应的数据，内部调用米家代理接口/device/delsetting
-     * @param {*} params  - 请求参数 \{did:设备 id,settings:要删除的设置角标的数组}
+     * @param {json} params  - 请求参数 \{did:设备 id,settings:要删除的设置角标的数组}
      * @return {Promise}
      */
     delDeviceSetting(params){
@@ -137,7 +158,7 @@ export default {
     },
     /**
      * 获取服务器中 最新的版本信息，内部调用米家代理接口/home/latest_version
-     * @param model 设备的 model
+     * @param {string} model 设备的 model
      * @return {Promise}
      */
     getLatestVersion(model){
@@ -161,17 +182,44 @@ export default {
     setDeviceData(params){
          return Promise.resolve(null);
     },
+    /**
+     * 获取用户收藏
+     * /user/get_user_coll
+     * @param {*} params {did:string}
+     * @return {Promise}
+     */
+    getUserColl(params){
+         return Promise.resolve(null);
+    },
+    /**
+     * 设置用户收藏
+     * /user/get_user_coll
+     * @param {*} params {did:string, name: string, content: string}
+     * @return {Promise}
+     */
+    setUserColl(params){
+         return Promise.resolve(null);
+    },
+    /**
+     * 删除用户收藏
+     * /user/get_user_coll
+     * @param {*} params {coll_id: string, did: string}
+     * @return {Promise}
+     */
+    delUserColl(params){
+         return Promise.resolve(null);
+    },
     /**添加设备属性和事件历史记录，/home/getmapfileurl
      *
-     * @param params
+     * @param {json} params
      * @return {Promise}
      */
     getMapfileUrl(params){
          return Promise.resolve(null);
     },
     /**添加设备属性和事件历史记录，/home/device_list
-     *
-     * @param params
+     * 当ssid和bssid均不为空时，表示同时搜索这个局域网内所有未被绑定过的设备
+     * @param {json} params {pid:string ,ssid:string ,bssid:string ,localDidList:array<string>,checkMoreWifi:bool,dids:array<string>}
      * @return {Promise}
      */
     getHomeDevice(params){
@@ -180,7 +228,7 @@ export default {
     /**
      *  /user/del_user_map
      *
-     * @param params
+     * @param {json} params
      * @return {Promise}
      */
     delUsermap(params){
@@ -189,15 +237,16 @@ export default {
     /**
      *  /home/getrobomapurl
      *
-     * @param params
+     * @param {*} arams
      * @return {Promise}
      */
     getRobomapUrl(params){
          return Promise.resolve(null);
     },
     /**
+     * 获取设备所在网络的IP地址所属国家
      * /home/getcountry
-     * @param params
+     * @param {json} params {"dids": ["xx"]}
      * @return {Promise}
      */
     getCountry(params){
@@ -229,5 +278,32 @@ export default {
      */
     getThirdConfig(params){
          return Promise.resolve(null);
+    },
+    /**
+     * 异步调用第三方云接口  /third/api
+     *
+     * @param {json} params  -参数 {"app_id":"123","dids":["1","2"],"params":json}
+     * @return {Promise}
+     */
+    callThirdPartyAPI(params){
+         return Promise.resolve(null);
+    },
+    /**
+     * 华米watch配置使用
+     * Android not support yet
+     * @return {Promise}
+     */
+    getMiWatchConfig() {
+        if(native.isAndroid) {
+            return new Promise.reject("not support android yet");
+        }
+        return new Promise((resolve, reject) => {
+            native.MIOTHost.getMiWatchConfigWithCallback((ok, res) => {
+                if(ok) {
+                    return resolve(res);
+                }
+                reject("get failed");
+            });
+        });
     }
 }
