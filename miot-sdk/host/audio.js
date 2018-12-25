@@ -1,9 +1,22 @@
 /**
  * @export
  * @module miot/host/audio
- * @description 音频处理
+ * @description 
+ * 音频处理
+ * @example
+ * import {Host} from 'miot'
+ * ...
+ * Host.audio.startRecord('sample', {'AVFormatIDKey': 'AMR'})
+ *  .then(res => {//start record success})
+ * ...
+ * Host.audio.stopRecord().then(res => {//stop finished})
+ * ...
  */
 export default {
+  /**
+   * 用户是否开启录制权限
+   * @return {boolean}
+   */
   isAbleToRecord() {
      return Promise.resolve(null);
   /**
@@ -24,7 +37,7 @@ export default {
   },
   /**
    * 停止录音
-   * @return {Promise<boolean>}
+   * @return {Promise}
    */
   stopRecord() {
      return Promise.resolve(null);
